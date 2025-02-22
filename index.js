@@ -2,20 +2,23 @@ const express = require("express");
 const { resolve } = require("path");
 const mongoose = require("mongoose");
 const MenuItem = require("./models/MenuItem");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 mongoose
-  .connect("mongodb://localhost:27017/mydatabase")
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((err) => {
     console.error("Failed to connect to MongoDB", err);
   });
+
 const app = express();
 const port = 3010;
 
 app.use(express.json());
-
 app.use(express.static("static"));
 
 app.post("/menu", async (req, res) => {
